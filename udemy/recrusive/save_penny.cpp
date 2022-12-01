@@ -1,64 +1,24 @@
 #include <iostream>
 #include <iomanip>
-#include <cmath>
-
 
 using namespace std;
 
-void printTimes(int x, char c)
+double penny_doubled_every_day (double penny, int days)
 {
-    for (int i=0;i<x;i++)
+    if (days <= 1)
     {
-        cout << c;
+        return penny;
     }
+    
+    return penny_doubled_every_day(penny*2, days-1);
 }
-
-
-int piramyd_not_recrusive(int p)
-{
-    if (p == 0)
-        return 0;
-
-
-    for (int i=0;i<p;i++)
-    {   
-        printTimes(abs(i-p), ' ');
-
-        // cout << ' ';
-        printTimes(i, 'H');
-        printTimes(i, 'H');
-        cout << endl;
-    }
-
-    return 0;
-}
-
-
-
-void piramyd_recrusive(int p)
-{
-    if (p == 0)
-        return;
-    else 
-    {
-        
-        printTimes(p, ' ');
-        printTimes(abs(p-10), 'X');
-        printTimes(abs(p-10), 'X');
-
-        cout << endl;
-
-        piramyd_recrusive(p-1);
-    }
-
-
-    return;
-}
-
 
 int main ()
 {
+    double total_save = penny_doubled_every_day(0.1, 5);
 
-    piramyd_recrusive(10);
+    cout << total_save << endl;
+
+
     return 0;
 }
