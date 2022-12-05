@@ -10,7 +10,7 @@
 				"-Wall",
 				"-std=c++17",
 				"-g",
-				"${file}",
+				"*.cpp",
 				"-o",
 				"${fileDirname}/a.out"
 			],
