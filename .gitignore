@@ -1,2 +1,11 @@
-*.out*
+*.out
 */tempCodeRunnerFile.cpp
+*.mk
+*.project
+*.codelite*
+Makefile
+*.workspace
+
+# All .txt except Description.txt
+*.txt
+!Description.txt
