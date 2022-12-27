@@ -6,11 +6,11 @@
 			"label": "C/C++: g++ build active file",
 			"command": "/usr/bin/g++",
 			"args": [
-				"-fdiagnostics-color=always",
+				// "-fdiagnostics-color=always",
+				"-g",
 				"-Wall",
 				"-std=c++17",
-				"-g",
-				"*.cpp",
+				"${fileDirname}/*.cpp",
 				"-o",
 				"${fileDirname}/a.out"
 			],
@@ -20,16 +20,8 @@
 			"problemMatcher": [
 				"$gcc"
 			],
-			"runOptions": {
-				"runOn": "default"
-			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"detail": "compiler: /usr/bin/g++",
+			"group": "build",
+			"detail": "compiler: /usr/bin/g++"
 		}
-
-
 	]
 }
