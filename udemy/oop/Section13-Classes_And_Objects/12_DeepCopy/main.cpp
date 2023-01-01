@@ -46,6 +46,9 @@ int main() {
     
     obj2.set_data_value(1000);
   
+
+    cout << obj1.get_data_value() << endl;
+    cout << obj2.get_data_value() << endl;
     return 0;
 }
 
