@@ -2,6 +2,7 @@
 #include<iostream>
 
 // g++ -L/home/mblazic/my_math/ -Wall -o code main.cpp -lmymath
+// g++ -L. -Wall -o code main.cpp -lmymath
 
 int main ()
 {
