@@ -99,8 +99,19 @@ void bat::setBouquetData() {
                 XMLElement* ts_el = first_ts_node->ToElement();
 
                 if ( (string) ts_el->Value() == "transport_stream" ) {
+
+                    // Fill id
                     current_ts.id = ts_el->FirstAttribute()->Value();
-                    current_ts.lcn_desc = first_ts_node->FirstChildElement("generic_descriptor")->GetText();
+
+                    // Fill lcn_desc
+                    string origin_lcn_desc = first_ts_node->FirstChildElement("generic_descriptor")->GetText();
+                    for (int i=0; i<origin_lcn_desc.size(); i++ ) {
+                        if (origin_lcn_desc[i] != ' ') {    
+                            if (origin_lcn_desc[i] != '\n') {
+                                current_ts.lcn_desc.push_back(origin_lcn_desc[i]);
+                            }
+                        }
+                    }
 
                     cout << current_ts.id << ", "; 
                     // cout << " " << generic_desc->GetText() << " "; 
@@ -109,9 +120,6 @@ void bat::setBouquetData() {
 
             } while (first_ts_node=first_ts_node->NextSibling());
             cout << "]";
-
-
-
 
             cout << endl;
             bouquets.push_back(bouquet);
@@ -138,7 +146,28 @@ int main()
     // }
 
 
-        cout << bouquets.at(1).tsdata.at(0).lcn_desc <<endl;
+
+    // cout << bouquets.at(1).tsdata.at(0).lcn_desc <<endl;
+    string str_desc = bouquets.at(1).tsdata.at(0).lcn_desc;
+    cout  << str_desc << endl;
+
+
+cout << "-----------------------------" << endl;
+    vector<string> res;
+    for (size_t i = 0; i < str_desc.size(); i=i+4){
+        // cout << "i=" << i << endl;
+        if (i == 0) {
+            cout << "["<< i << "] " << str_desc.substr(0,4) << endl;
+        }
+            // res.push_back(str_desc.substr(0,i));
+        else  {
+            // res.push_back(str_desc.substr(i-4,i));
+
+        }
+    }
+
+    // for (auto r:res)
+    //     cout << r << " ";
 
     return 0;
 
