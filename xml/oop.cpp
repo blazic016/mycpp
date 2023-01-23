@@ -154,20 +154,9 @@ int main()
 
 cout << "-----------------------------" << endl;
     vector<string> res;
-    for (size_t i = 0; i < str_desc.size(); i=i+4){
-        // cout << "i=" << i << endl;
-        if (i == 0) {
-            cout << "["<< i << "] " << str_desc.substr(0,4) << endl;
-        }
-            // res.push_back(str_desc.substr(0,i));
-        else  {
-            // res.push_back(str_desc.substr(i-4,i));
-
-        }
+    for (size_t i = 0; i < str_desc.size(); i+=8){
+        cout << "["<< i << "] " << str_desc.substr(i,8) << endl;
     }
-
-    // for (auto r:res)
-    //     cout << r << " ";
 
     return 0;
 
