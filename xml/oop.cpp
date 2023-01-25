@@ -11,10 +11,11 @@ using namespace std;
 
 
 
-typedef struct TSData{
+typedef struct TSData {
     string id;
     string service_name;
-    string lcn_desc;
+    string full_lcn_desc; /* No need */
+    vector<string> lcn_desc; /* Each service have own lcn_desc  */
 } TSData;
 
 typedef struct BouquetData{
@@ -33,6 +34,7 @@ private:
     int num_of_table = 0;
     XMLNode* first_bat_node;
     vector<BouquetData> bouquets;
+    void splitDescPerService();
 public:
     bat(string fname);
     string getFileName();
@@ -103,19 +105,29 @@ void bat::setBouquetData() {
                     // Fill id
                     current_ts.id = ts_el->FirstAttribute()->Value();
 
-                    // Fill lcn_desc
-                    string origin_lcn_desc = first_ts_node->FirstChildElement("generic_descriptor")->GetText();
-                    for (int i=0; i<origin_lcn_desc.size(); i++ ) {
-                        if (origin_lcn_desc[i] != ' ') {    
-                            if (origin_lcn_desc[i] != '\n') {
-                                current_ts.lcn_desc.push_back(origin_lcn_desc[i]);
+                    // Fill full_lcn_desc
+                    string origin_full_lcn_desc = first_ts_node->FirstChildElement("generic_descriptor")->GetText();
+                    string filter_full_lcn_desc;
+                    for (int i=0; i<origin_full_lcn_desc.size(); i++ ) {
+                        if (origin_full_lcn_desc[i] != ' ') {    
+                            if (origin_full_lcn_desc[i] != '\n') {
+                                /* Fill 'filter_full_lcn_desc' */
+                                filter_full_lcn_desc.push_back(origin_full_lcn_desc[i]);
+                                /* Fill 'string full_lcn_desc', but it is use only for debug */
+                                current_ts.full_lcn_desc.push_back(origin_full_lcn_desc[i]);
                             }
                         }
                     }
 
+                    /* Fill 'vector<string> lcn_desc' */
+                    for (size_t i = 0; i < filter_full_lcn_desc.size(); i+=8) {
+                        current_ts.lcn_desc.push_back( filter_full_lcn_desc.substr(i,8) );
+                    }
+
                     cout << current_ts.id << ", "; 
-                    // cout << " " << generic_desc->GetText() << " "; 
-                    bouquet.tsdata.push_back(current_ts);
+                    /* Fill 'struct TSData' */
+                     bouquet.tsdata.push_back(current_ts);
+
                 }
 
             } while (first_ts_node=first_ts_node->NextSibling());
@@ -127,7 +139,9 @@ void bat::setBouquetData() {
     } while (first_bat_node=first_bat_node->NextSibling());
 }
 
+void bat::splitDescPerService() {
 
+}
 
 int main()
 {
@@ -137,26 +151,25 @@ int main()
     cout << "====================" << endl;
     vector bouquets = obj.getBouquetData();
     
-    // for(auto bouquet:bouquets) {
-    //     cout << bouquet.name << " " << bouquet.id <<endl;
+    int cnt = 0;
+    for(auto bouquet:bouquets) {
+        cout << "BOUQUET: " << bouquet.id << " (" << bouquet.name << ")" << "\tVer: " << bouquet.version << " ";
+        cout << "TS[ ";
+        cout << "size=" << bouquet.tsdata.size() << " ";
+        for (auto ts:bouquet.tsdata) {
+            cout << ts.id << ", ";
+        }
+        cout << " ]" << endl;
 
-    //     for (auto ts:bouquet.tsdata){
-    //         cout << "\t" << ts.lcn_desc << endl;
-    //     }
-    // }
-
-
-
-    // cout << bouquets.at(1).tsdata.at(0).lcn_desc <<endl;
-    string str_desc = bouquets.at(1).tsdata.at(0).lcn_desc;
-    cout  << str_desc << endl;
-
-
-cout << "-----------------------------" << endl;
-    vector<string> res;
-    for (size_t i = 0; i < str_desc.size(); i+=8){
-        cout << "["<< i << "] " << str_desc.substr(i,8) << endl;
     }
+
+
+    cout << "-----------------------------" << endl;
+    cout << "Full desc: " << bouquets.at(1).tsdata.at(0).full_lcn_desc <<endl;
+    cout << "Desc [0]: " << bouquets.at(1).tsdata.at(0).lcn_desc.at(0) << endl;
+    cout << "Desc [1]: " << bouquets.at(1).tsdata.at(0).lcn_desc.at(1) << endl;
+
+
 
     return 0;
 
