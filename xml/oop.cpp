@@ -128,6 +128,9 @@ void bat::setBouquet() {
     }
 }
 
+
+
+
 void print (vector<Bouquet> bouquets)
 {
     for(auto bouquet:bouquets) {
@@ -144,11 +147,92 @@ void print (vector<Bouquet> bouquets)
     }
 }
 
+vector<string> SplitGenericDescriptor(string gen_desc) {
+    vector<string> ret;
+    int cnt = 0;
+    
+    if (gen_desc.size() % 8 != 0) {
+        cout << "Greska: Neodgovarajuc deskriptor!" << endl;
+        return ret; // size: 0
+    }
+
+    for (int i=0;i<gen_desc.size(); i++) {
+        if (i == 0) {
+            // cout << gen_desc.substr(i,8) << endl;
+            ret.push_back(gen_desc.substr(i,8));
+        }
+        else if (cnt == 8) {
+            // cout << gen_desc.substr(i,cnt) << endl;
+            ret.push_back(gen_desc.substr(i,cnt));
+            cnt = 0;
+        }
+        cnt++;
+    }
+    return ret;
+}
+
+typedef struct service_info {
+    string service_id;
+    string service_lcn;
+} service_info;
+
+
+vector<service_info> PrepareServiceInfo(string splitted_gen_desc) {
+    service_info sinfo; 
+    vector<service_info> ret;
+    int cnt = 0;
+    
+    if (splitted_gen_desc.size() != 8) {
+        cout << "Greska: Neodgovarajuc deskriptor!" << endl;
+        return ret; // size: 0
+    }
+
+    sinfo.service_id = splitted_gen_desc.substr(0,4);
+    sinfo.service_lcn = splitted_gen_desc.substr(4,8);
+
+    cout << "TSID: "<< sinfo.service_id << endl;
+    // TO DO: Uradi da odma konvertuje 10bita
+    cout << "LCN: "<< sinfo.service_lcn << endl;
+
+    ret.push_back(sinfo);
+    return ret;
+}
+
 int main()
 {
     cout << "====================" << endl;
     bat obj{"bat_sdt.xml"};
-    print(obj.getBouquet());
+    // print(obj.getBouquet());
 
+
+    string test {"0FA1FD950FA2FC400FA3FCD00FA4FCA10FA5FD800FA6FD840FA7FCFE0FA8FD920FA9FCA00FAAFD810FABFD830FACFD820FADFCD10FAEFD7E0FAFFD000FB0FCA20FB1FC3F0FB3FCEA0FB4FCD70FB5FD910FB6FCA90FB7FC7B0FB8FD7F0FB9FDF30FBAFDA60FBBFDA50FBCFDA70FBDFDA80FBEFDA90FBFFDAA0FC0FDAB0FC1FDAD0FC2FDAC0FC3FDAE0FC4FDAF0FC5FDB00FC6FDB10FC7FDB20FD2FCF40FB0FD96"};
+    // cout << test << endl;
+    // cout << endl;
+    
+    vector<string> services = SplitGenericDescriptor(test);
+    if (services.size() == 0)
+        cout << "Nije dobro" << endl;
+
+    // Radi 
+    // for (auto s:services)
+    //     cout << s << endl;
+
+    string test2 {"0FA1FD95"};
+    PrepareServiceInfo(test2);
+
+
+    // string tmp[8];
+    // int cnt = 0;
+    // for (int i=0;i<test.size(); i++) {
+    //     if (i == 0) {
+    //         cout << test.substr(i,8) << endl;
+    //     }
+    //     else if (cnt == 8) {
+    //         cout << test.substr(i,cnt) << endl;
+    //         cnt = 0;
+    //     }
+    //     cnt++;
+    // }
+        
     return 0;
 }
