@@ -4,6 +4,8 @@
 #include "tinyxml2/tinyxml2.h"
 #include <string>
 #include <vector>
+#include <iomanip>
+#include <bitset>
 
 using namespace tinyxml2;
 using namespace std;
@@ -12,7 +14,8 @@ using namespace std;
 
 typedef struct transport_stream {
     string transport_stream_id;
-    string generic_descriptor;
+    // string generic_descriptor;
+    vector<string> tslcns;
 } transport_stream;
 
 typedef struct Bouquet {
@@ -30,6 +33,7 @@ private:
     int num_of_table = 0;
     XMLNode* first_bat_node;
     vector<Bouquet> bouquets;
+    vector<string> SplitGenericDescriptor(string gen_desc);
 public:
     bat(string fname);
     string getFileName();
@@ -104,14 +108,17 @@ void bat::setBouquet() {
 
                     // Fill generic_descriptor
                     string origin_generic_descriptor = first_ts_node->FirstChildElement("generic_descriptor")->GetText();
+                    string filter_generic_descriptor;
                     for (int i=0; i<origin_generic_descriptor.size(); i++ ) {
                         if (origin_generic_descriptor[i] != ' ') {    
                             if (origin_generic_descriptor[i] != '\n') {
-                                current_ts.generic_descriptor.push_back(origin_generic_descriptor[i]);
+                                // current_ts.generic_descriptor.push_back(origin_generic_descriptor[i]); // zakomentarisi
+                                filter_generic_descriptor.push_back(origin_generic_descriptor[i]); 
                             }
                         }
                     }
 
+                    current_ts.tslcns = bat::SplitGenericDescriptor(filter_generic_descriptor);
                     v_current_stream.push_back(current_ts);
                 }
             }
@@ -127,27 +134,7 @@ void bat::setBouquet() {
         }
     }
 }
-
-
-
-
-void print (vector<Bouquet> bouquets)
-{
-    for(auto bouquet:bouquets) {
-        cout << "BOUQUET: " << bouquet.id << " (" << bouquet.name << ")" << "\tVer: " << bouquet.version << "\t  ";
-        cout << "TS [";
-        for (const auto ts:bouquet.tsdata) {
-            cout << ts.transport_stream_id << " ";
-        }
-        cout << "]" << endl;
-
-        for (const auto ts:bouquet.tsdata) {
-            cout << "   " << ts.transport_stream_id << "[" << ts.generic_descriptor << "]" << endl;
-        }
-    }
-}
-
-vector<string> SplitGenericDescriptor(string gen_desc) {
+vector<string> bat::SplitGenericDescriptor(string gen_desc) {
     vector<string> ret;
     int cnt = 0;
     
@@ -171,68 +158,102 @@ vector<string> SplitGenericDescriptor(string gen_desc) {
     return ret;
 }
 
-typedef struct service_info {
+
+class ServiceInfo
+{
+private:
+    int ConvertToLcn(std::string str_hex);
+    void SetServiceIdLcn(string splitted_gen_desc);
+public:
+    string bouquet_id;
+    string bouquet_name;
+    string bouquet_ver;
+    string transport_stream_id;
     string service_id;
-    string service_lcn;
-} service_info;
-
-
-vector<service_info> PrepareServiceInfo(string splitted_gen_desc) {
-    service_info sinfo; 
-    vector<service_info> ret;
-    int cnt = 0;
-    
-    if (splitted_gen_desc.size() != 8) {
-        cout << "Greska: Neodgovarajuc deskriptor!" << endl;
-        return ret; // size: 0
+    string service_name; // TO DO
+    int service_lcn;
+    ServiceInfo(Bouquet b, string ts, string splitted_gen_desc) : 
+    bouquet_id {b.id},
+    bouquet_name {b.name},
+    bouquet_ver {b.version},
+    transport_stream_id {ts}
+    {
+        // SET: service_id service_lcn
+        SetServiceIdLcn(splitted_gen_desc); // TO DO return error
+        service_name = "HEHE";
     }
 
-    sinfo.service_id = splitted_gen_desc.substr(0,4);
-    sinfo.service_lcn = splitted_gen_desc.substr(4,8);
-
-    cout << "TSID: "<< sinfo.service_id << endl;
-    // TO DO: Uradi da odma konvertuje 10bita
-    cout << "LCN: "<< sinfo.service_lcn << endl;
-
-    ret.push_back(sinfo);
-    return ret;
+};
+int ServiceInfo::ConvertToLcn(std::string str_hex)
+{
+    int num_h = 0;
+    std::istringstream(str_hex) >> std::hex >> num_h;
+    std::bitset<10> num_b(num_h);
+    int lcn = num_b.to_ullong();
+    return lcn;
 }
+void ServiceInfo::SetServiceIdLcn(string splitted_gen_desc)
+{
+    if (splitted_gen_desc.size() != 8) 
+    {
+        cout << "Greska: Neodgovarajuc deskriptor!" << endl;
+        service_id= "0";
+        service_lcn = 0;
+    }
+    service_id = splitted_gen_desc.substr(0,4);
+    service_lcn = ServiceInfo::ConvertToLcn( splitted_gen_desc.substr(4,8) );
+}
+
+void printBouquet (vector<Bouquet> bouquets)
+{
+    cout << "===================================== ALL BOUQUETS ========================================" << endl;
+    for(auto bouquet:bouquets) {
+        cout << "BOUQUET: " << bouquet.id << " (" << bouquet.name << ")" << "\tVer: " << bouquet.version << "\t  ";
+        cout << "TS [";
+        for (const auto ts:bouquet.tsdata) {
+            cout << ts.transport_stream_id << " ";
+        }
+        cout << "]" << endl;
+    }
+    cout << "=========================================================================================" << endl;
+
+}
+
+vector<ServiceInfo> CreateSinfoObjects(vector<Bouquet> bouquets)
+{
+    vector<ServiceInfo> sinfos;
+
+    for (auto bouquet:bouquets) {
+        for (auto ts_d:bouquet.tsdata) {
+            for (auto tslcn:ts_d.tslcns) {
+                ServiceInfo sinfo {bouquet, ts_d.transport_stream_id, tslcn};
+                sinfos.push_back(sinfo); 
+            }
+        }
+    }
+    return sinfos;
+}
+
 
 int main()
 {
-    cout << "====================" << endl;
     bat obj{"bat_sdt.xml"};
-    // print(obj.getBouquet());
+    printBouquet(obj.getBouquet());
 
-
-    string test {"0FA1FD950FA2FC400FA3FCD00FA4FCA10FA5FD800FA6FD840FA7FCFE0FA8FD920FA9FCA00FAAFD810FABFD830FACFD820FADFCD10FAEFD7E0FAFFD000FB0FCA20FB1FC3F0FB3FCEA0FB4FCD70FB5FD910FB6FCA90FB7FC7B0FB8FD7F0FB9FDF30FBAFDA60FBBFDA50FBCFDA70FBDFDA80FBEFDA90FBFFDAA0FC0FDAB0FC1FDAD0FC2FDAC0FC3FDAE0FC4FDAF0FC5FDB00FC6FDB10FC7FDB20FD2FCF40FB0FD96"};
-    // cout << test << endl;
-    // cout << endl;
+    vector<ServiceInfo> sinfos = CreateSinfoObjects( obj.getBouquet() );
     
-    vector<string> services = SplitGenericDescriptor(test);
-    if (services.size() == 0)
-        cout << "Nije dobro" << endl;
 
-    // Radi 
-    // for (auto s:services)
-    //     cout << s << endl;
+    for (const auto sinfo:sinfos) {
+        cout << "bouquet=" << sinfo.bouquet_id << " " << 
+        "(" << sinfo.bouquet_name << ") " <<
+        "ver=" << sinfo.bouquet_ver << "   " <<
+        "ts=" << sinfo.transport_stream_id << "   " <<
+        "service_id="<< "0x"<< sinfo.service_id << "  " <<  
+        "LCN=" << sinfo.service_lcn << " " <<
+        "(" << sinfo.service_name << ")"<< endl;
+    }
 
-    string test2 {"0FA1FD95"};
-    PrepareServiceInfo(test2);
 
-
-    // string tmp[8];
-    // int cnt = 0;
-    // for (int i=0;i<test.size(); i++) {
-    //     if (i == 0) {
-    //         cout << test.substr(i,8) << endl;
-    //     }
-    //     else if (cnt == 8) {
-    //         cout << test.substr(i,cnt) << endl;
-    //         cnt = 0;
-    //     }
-    //     cnt++;
-    // }
-        
+    
     return 0;
 }
