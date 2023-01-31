@@ -13,9 +13,10 @@ using namespace std;
 // Global var
 XMLDocument bat_doc;
 XMLDocument nit_doc;
-
+string delivery = "NoDelivery";
 string bat_filename = "Nije navedeno";
 string nit_filename = "Nije navedeno";
+
 
 typedef struct transport_stream {
     string transport_stream_id;
@@ -161,6 +162,10 @@ private:
     string xml_filename {nit_filename};
     string transport_stream_id;
     string frequency;
+    bool isSatelliteDescriptor(XMLNode* n);
+    bool isTerrestrialDescriptor(XMLNode* n);
+    string getSatFreq(XMLNode* n);
+    string getTerFreq(XMLNode* n);
 public:
     // TsInfo();
     string getFrequency() {return frequency;}
@@ -183,8 +188,15 @@ void TsInfo::setFreqency(string tsid) {
             do {
                 transport_stream_id = (string) ts_node->ToElement()->FirstAttribute()->Value();
                 if (transport_stream_id == tsid) {
-                    frequency =  (string)ts_node->FirstChildElement("satellite_delivery_system_descriptor")->FirstAttribute()->Value();
-                    // cout << "Frekvencija:" << frequency << endl;
+                    if (isSatelliteDescriptor(ts_node)) {
+                        frequency = getSatFreq(ts_node);
+                        delivery = "SATELLITE STREAM";
+                    } else if (isTerrestrialDescriptor(ts_node)) {
+                        frequency = getTerFreq(ts_node);
+                        delivery = "TERRESTRIAL STREAM";
+                    } else {
+                        cout << "Ne odgovara ni jedan delivery descriptor!" << endl;
+                    }
                     return;
                 }
             } while( (ts_node = ts_node->NextSibling()) );
@@ -195,6 +207,39 @@ void TsInfo::setFreqency(string tsid) {
     if (frequency == "NoFreq")
         cout << "Izuzetak: TS " << tsid << " nema frekvenciju!" << endl;
 }
+
+bool TsInfo::isSatelliteDescriptor(XMLNode* n)
+{   
+    string str1 = {"satellite_delivery_system_descriptor"};
+    string str2 = (string)n->FirstChildElement()->Value();
+    if (str1 == str2 )
+        return true;
+    else
+        return false;
+}
+bool TsInfo::isTerrestrialDescriptor(XMLNode* n)
+{
+    string str1 = {"T2_delivery_system_descriptor"};
+    string str2 = (string)n->FirstChildElement()->Value();
+    if (str1 == str2 )
+        return true;
+    else
+        return false;
+}
+string TsInfo::getSatFreq(XMLNode* n) 
+{
+    return n->FirstChildElement("satellite_delivery_system_descriptor")->FirstAttribute()->Value();
+}
+
+string TsInfo::getTerFreq(XMLNode* n)
+{
+    return n->FirstChildElement("T2_delivery_system_descriptor")
+        ->FirstChildElement("extension")
+        ->FirstChildElement("cell")
+        ->FirstChildElement("centre_frequency")
+        ->FirstAttribute()->Value();
+}
+
 
 class ServiceInfo
 {
@@ -286,7 +331,7 @@ void ServiceInfo::setFrequency()
 
 void printBouquet (vector<Bouquet> bouquets)
 {
-    cout << "===================================== ALL BOUQUETS ========================================" << endl;
+    cout << "===================================== ALL BOUQUETS ======================================" << endl;
     for(auto bouquet:bouquets) {
         cout << "BOUQUET: " << bouquet.id << " (" << bouquet.name << ")" << "\tVer: " << bouquet.version << "\t  ";
         cout << "TS [";
@@ -318,7 +363,7 @@ vector<ServiceInfo> CreateSinfoObjects(vector<Bouquet> bouquets)
 int main(int argc, char** argv)
 {
 
-#if 0
+#if 1
     if (argc > 3 || argc == 1)
     {
         cout << "Mora 2 parametra. Prvi: bat_sdt Drugi: nit" << endl;
@@ -340,16 +385,13 @@ int main(int argc, char** argv)
     cout << "BAT filename: " << bat_filename << endl;    
     cout << "NIT filename: " << nit_filename << endl;
 
-    // bat_filename = "bat_sdt.xml";
-    // nit_filename = "nit.xml";
-
     bat obj;
     printBouquet(obj.getBouquet());
-    cout << endl;
 
     vector<ServiceInfo> sinfos = CreateSinfoObjects( obj.getBouquet() );
-    
-    cout << endl;
+
+    cout << delivery << endl << endl;
+
     for (const auto &sinfo:sinfos) {
         cout << "bouquet=" << sinfo.bouquet_id << " " << 
         "(" << sinfo.bouquet_name << ") " <<
