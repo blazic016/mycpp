@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsduck>
+  <NIT version="2" current="true" network_id="0x2010" actual="true">
+    <metadata PID="16"/>
+    <network_name_descriptor network_name="TNT CANAL+ AFRIQUE"/>
+    <transport_stream transport_stream_id="0x0385" original_network_id="0x00B7" preferred_section="0">
+      <T2_delivery_system_descriptor plp_id="0x01" T2_system_id="0x0001">
+        <extension SISO_MISO="SISO" bandwidth="8MHz" guard_interval="1/16" transmission_mode="32k" other_frequency="false" tfs="false">
+          <cell cell_id="0x0000">
+            <centre_frequency value="546,000,000"/>
+          </cell>
+        </extension>
+      </T2_delivery_system_descriptor>
+    </transport_stream>
+    <transport_stream transport_stream_id="0x0386" original_network_id="0x00B7" preferred_section="0">
+      <T2_delivery_system_descriptor plp_id="0x01" T2_system_id="0x0001">
+        <extension SISO_MISO="SISO" bandwidth="8MHz" guard_interval="1/16" transmission_mode="32k" other_frequency="false" tfs="false">
+          <cell cell_id="0x0001">
+            <centre_frequency value="474,000,000"/>
+          </cell>
+        </extension>
+      </T2_delivery_system_descriptor>
+    </transport_stream>
+  </NIT>
+</tsduck>

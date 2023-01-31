@@ -317,6 +317,8 @@ vector<ServiceInfo> CreateSinfoObjects(vector<Bouquet> bouquets)
 
 int main(int argc, char** argv)
 {
+
+#if 0
     if (argc > 3 || argc == 1)
     {
         cout << "Mora 2 parametra. Prvi: bat_sdt Drugi: nit" << endl;
@@ -330,6 +332,10 @@ int main(int argc, char** argv)
         bat_filename = (string) argv[1];
         nit_filename = (string) argv[2];
     }
+#else
+        bat_filename = "bat_sdt.xml";
+        nit_filename = "nit.xml";
+#endif
 
     cout << "BAT filename: " << bat_filename << endl;    
     cout << "NIT filename: " << nit_filename << endl;

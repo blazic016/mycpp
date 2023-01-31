@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsduck>
+  <SDT version="7" current="true" transport_stream_id="0x0386" original_network_id="0x00B7" actual="false">
+    <metadata PID="17"/>
+    <service service_id="0x200A" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="A+"/>
+    </service>
+    <service service_id="0x200E" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x01" service_provider_name="CANALSATELLITE" service_name="BBLACK AFRICA"/>
+    </service>
+    <service service_id="0x200F" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x01" service_provider_name="CANALSATELLITE" service_name="KTO"/>
+    </service>
+    <service service_id="0x2011" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x01" service_provider_name="CANALSATELLITE" service_name="LMTV"/>
+    </service>
+    <service service_id="0x2013" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x01" service_provider_name="CANALSATELLITE" service_name="B ONE"/>
+    </service>
+    <service service_id="0x2014" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x01" service_provider_name="CANALSATELLITE" service_name="MABOKE TV"/>
+    </service>
+    <service service_id="0x2015" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x01" service_provider_name="CANALSATELLITE" service_name="TRACE KITOKO"/>
+    </service>
+    <service service_id="0x2017" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="MTV HITS"/>
+    </service>
+    <service service_id="0x2018" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x01" service_provider_name="CANALSATELLITE" service_name="MOLIERE TV"/>
+    </service>
+    <service service_id="0x2019" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x01" service_provider_name="CANALSATELLITE" service_name="RTNC"/>
+    </service>
+    <service service_id="0x201F" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="PSTV"/>
+    </service>
+    <service service_id="0x2020" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x01" service_provider_name="CANALSATELLITE" service_name="STUDIO SANGO MALAMU"/>
+    </service>
+    <service service_id="0x2021" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="NYOTA"/>
+    </service>
+  </SDT>
+  <BAT version="2" current="true" bouquet_id="0xC025">
+    <metadata PID="17"/>
+    <linkage_descriptor transport_stream_id="0x0385" original_network_id="0x00B7" service_id="0x1FB2" linkage_type="0x81"/>
+    <bouquet_name_descriptor bouquet_name="RDC MATADI"/>
+    <linkage_descriptor transport_stream_id="0x0385" original_network_id="0x00B7" service_id="0x1FA1" linkage_type="0x09">
+      <private_data>
+        10 00 19 82 0C 00 03 00 24 00 01 14 41 00 01 01
+        02
+      </private_data>
+    </linkage_descriptor>
+    <linkage_descriptor transport_stream_id="0x0385" original_network_id="0x00B7" service_id="0x1FA2" linkage_type="0x09">
+      <private_data>
+        14 00 19 82 10 00 04 00 22 00 01 00 A3 00 01 00
+        00 00 01 01 02
+      </private_data>
+    </linkage_descriptor>
+    <transport_stream transport_stream_id="0x0385" original_network_id="0x00B7" preferred_section="0">
+      <private_data_specifier_descriptor private_data_specifier="0x000000A4"/>
+      <generic_descriptor tag="0x83">
+        1F A5 FC 0C 1F A6 FC 0F 1F A7 FC 12 1F A8 FC 14
+        1F A9 FC 19 1F AA FC 1F 1F AB FC 28 1F AC FC 32
+        1F AE FC 1E 1F AF FC 10 1F B0 FC 0D 1F B1 FC 16
+        1F B2 FC 0A 1F B3 FC 23 1F B4 FC 29 1F B5 FC 3C
+        1F B6 FC 33 1F B7 FC 11 1F B8 FC 2A 1F B9 FC 15
+        1F BA FC 13
+      </generic_descriptor>
+      <service_list_descriptor>
+        <service service_id="0x1FA5" service_type="0x1F"/>
+        <service service_id="0x1FA6" service_type="0x1F"/>
+        <service service_id="0x1FA7" service_type="0x1F"/>
+        <service service_id="0x1FA8" service_type="0x1F"/>
+        <service service_id="0x1FA9" service_type="0x1F"/>
+        <service service_id="0x1FAA" service_type="0x1F"/>
+        <service service_id="0x1FAB" service_type="0x1F"/>
+        <service service_id="0x1FAC" service_type="0x1F"/>
+        <service service_id="0x1FAE" service_type="0x1F"/>
+        <service service_id="0x1FAF" service_type="0x1F"/>
+        <service service_id="0x1FB0" service_type="0x1F"/>
+        <service service_id="0x1FB1" service_type="0x1F"/>
+        <service service_id="0x1FB2" service_type="0x1F"/>
+        <service service_id="0x1FB3" service_type="0x1F"/>
+        <service service_id="0x1FB4" service_type="0x1F"/>
+        <service service_id="0x1FB5" service_type="0x01"/>
+        <service service_id="0x1FB6" service_type="0x01"/>
+        <service service_id="0x1FB7" service_type="0x1F"/>
+        <service service_id="0x1FB8" service_type="0x1F"/>
+        <service service_id="0x1FB9" service_type="0x1F"/>
+        <service service_id="0x1FBA" service_type="0x1F"/>
+      </service_list_descriptor>
+    </transport_stream>
+    <transport_stream transport_stream_id="0x0386" original_network_id="0x00B7" preferred_section="0">
+      <private_data_specifier_descriptor private_data_specifier="0x000000A4"/>
+      <generic_descriptor tag="0x83">
+        20 0A FC 0B 20 0E FC 24 20 0F FC 2E 20 11 FC 2D
+        20 13 FC 05 20 14 FC 04 20 15 FC 26 20 17 FC 25
+        20 18 FC 64 20 19 FC 01 20 1F FC 06 20 20 FC 07
+        20 21 FC 09
+      </generic_descriptor>
+      <service_list_descriptor>
+        <service service_id="0x200A" service_type="0x1F"/>
+        <service service_id="0x200E" service_type="0x1F"/>
+        <service service_id="0x200F" service_type="0x1F"/>
+        <service service_id="0x2011" service_type="0x1F"/>
+        <service service_id="0x2013" service_type="0x1F"/>
+        <service service_id="0x2014" service_type="0x1F"/>
+        <service service_id="0x2015" service_type="0x1F"/>
+        <service service_id="0x2017" service_type="0x1F"/>
+        <service service_id="0x2018" service_type="0x1F"/>
+        <service service_id="0x2019" service_type="0x1F"/>
+        <service service_id="0x201F" service_type="0x1F"/>
+        <service service_id="0x2020" service_type="0x1F"/>
+        <service service_id="0x2021" service_type="0x1F"/>
+      </service_list_descriptor>
+    </transport_stream>
+  </BAT>
+  <SDT version="7" current="true" transport_stream_id="0x0385" original_network_id="0x00B7" actual="true">
+    <metadata PID="17"/>
+    <service service_id="0x1FA5" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="NOVELAS TV"/>
+    </service>
+    <service service_id="0x1FA6" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="TV5 MONDE"/>
+    </service>
+    <service service_id="0x1FA7" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="C8"/>
+    </service>
+    <service service_id="0x1FA8" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="PIWI+"/>
+    </service>
+    <service service_id="0x1FA9" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="ACTION"/>
+    </service>
+    <service service_id="0x1FAA" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="CANAL+ SPORT 1"/>
+    </service>
+    <service service_id="0x1FAB" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="PLANETE+"/>
+    </service>
+    <service service_id="0x1FAC" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="FRANCE 24"/>
+    </service>
+    <service service_id="0x1FAE" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="INFOSPORT+"/>
+    </service>
+    <service service_id="0x1FAF" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="TFX"/>
+    </service>
+    <service service_id="0x1FB0" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="MTV"/>
+    </service>
+    <service service_id="0x1FB1" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="DISNEY CHANNEL"/>
+    </service>
+    <service service_id="0x1FB2" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="EASY TV"/>
+    </service>
+    <service service_id="0x1FB3" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="TRACE AFRICA"/>
+    </service>
+    <service service_id="0x1FB4" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="USHUAIA"/>
+    </service>
+    <service service_id="0x1FB5" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="DORCEL TV AFRICA"/>
+    </service>
+    <service service_id="0x1FB6" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="AFRICANEWS"/>
+    </service>
+    <service service_id="0x1FB7" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="ZEE MAGIC"/>
+    </service>
+    <service service_id="0x1FB8" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="NATHAN TV"/>
+    </service>
+    <service service_id="0x1FB9" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="TELETOON+"/>
+    </service>
+    <service service_id="0x1FBA" EIT_schedule="false" EIT_present_following="false" CA_mode="true" running_status="running">
+      <service_descriptor service_type="0x1F" service_provider_name="CANALSATELLITE" service_name="NOLLYWOOD TV"/>
+    </service>
+  </SDT>
+</tsduck>
