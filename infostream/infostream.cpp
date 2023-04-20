@@ -1,4 +1,4 @@
-// g++ oop.cpp tinyxml2/tinyxml2.cpp && ./a.out
+// g++ infostream.cpp tinyxml2/tinyxml2.cpp -o infostream && ./infostream xmls/bat_sdt.xml xmls/nit.xml 
 
 #include<iostream>
 #include "tinyxml2/tinyxml2.h"
@@ -13,7 +13,7 @@ using namespace std;
 // Global var
 XMLDocument bat_doc;
 XMLDocument nit_doc;
-string delivery = "NoDelivery";
+string delivery = "No Delivery Descriptor";
 string bat_filename = "Nije navedeno";
 string nit_filename = "Nije navedeno";
 
@@ -390,7 +390,7 @@ int main(int argc, char** argv)
 
     vector<ServiceInfo> sinfos = CreateSinfoObjects( obj.getBouquet() );
 
-    cout << delivery << endl << endl;
+    cout << "Delivery: " << delivery << endl << endl;
 
     for (const auto &sinfo:sinfos) {
         cout << "bouquet=" << sinfo.bouquet_id << " " << 
