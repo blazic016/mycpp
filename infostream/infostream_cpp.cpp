@@ -41,6 +41,7 @@ private:
 public:
     bat();
     string getFileName();
+    bool isExistBouquetNameDesc(XMLElement* element);
     int getNumTable();
     void setNumTable();
     void setBouquet();
@@ -58,6 +59,18 @@ bat::bat()
 }
 
 string bat::getFileName() { return xml_filename; }
+
+bool bat::isExistBouquetNameDesc(XMLElement* element) {
+    XMLPrinter prt;
+
+    element -> Accept (&prt);
+    string tekst = prt.CStr();
+
+    if ( strstr(tekst.c_str(), "bouquet_name_descriptor") )
+        return true;
+    else
+        return false;
+}
 
 void bat::setNumTable() {
 
@@ -84,9 +97,18 @@ void bat::setBouquet() {
     {
         if ( (string) first_bat_node->Value() == "BAT")
         {   
+            // cout << "BAT line: " << first_bat_node->GetLineNum() << endl;
+
             // Tag 'bouquet_name_descriptor'
             const XMLAttribute* bat_attrs = first_bat_node->ToElement()->FirstAttribute();
             bouquet.id = bat_attrs->Next()->Next()->Value();
+
+            // Fix when bat table isn't have bouquet_name_descriptor
+            if ( !isExistBouquetNameDesc(first_bat_node->ToElement()) ) 
+            {
+                continue;
+            }
+
             bouquet.name = first_bat_node->FirstChildElement("bouquet_name_descriptor")->FirstAttribute()->Value();
             bouquet.version = bat_attrs->Value();
 #ifdef DEBUG
@@ -132,6 +154,7 @@ void bat::setBouquet() {
         }
     } while ((first_bat_node=first_bat_node->NextSibling() ));
 }
+
 vector<string> bat::SplitGenericDescriptor(string gen_desc) {
     vector<string> ret;
     int cnt = 0;
