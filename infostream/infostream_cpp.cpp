@@ -269,6 +269,7 @@ class ServiceInfo
 private:
     int ConvertToLcn(std::string str_hex);
     void SetServiceIdLcn(string splitted_gen_desc);
+    void SetFreeAccessFlag(string splitted_gen_desc);
     void SetServiceName(string ts_id, string s_id);
     void setFrequency();
     TsInfo ts_info;
@@ -281,6 +282,7 @@ public:
     string service_id;
     string service_name;
     int service_lcn;
+    int free_access_flag;
     ServiceInfo(Bouquet b, string ts, string splitted_gen_desc) : 
     bouquet_id {b.id},
     bouquet_name {b.name},
@@ -290,6 +292,7 @@ public:
         SetServiceIdLcn(splitted_gen_desc); // TO DO return error
         SetServiceName(transport_stream_id, service_id);
         setFrequency();
+        SetFreeAccessFlag(splitted_gen_desc); 
     }
 };
 int ServiceInfo::ConvertToLcn(std::string str_hex)
@@ -311,6 +314,28 @@ void ServiceInfo::SetServiceIdLcn(string splitted_gen_desc)
     service_id = splitted_gen_desc.substr(0,4);
     service_lcn = ServiceInfo::ConvertToLcn( splitted_gen_desc.substr(4,8) );
 }
+
+void ServiceInfo::SetFreeAccessFlag(string splitted_gen_desc) // TO DO return error
+{
+    int decimal = 0;
+
+    if (splitted_gen_desc.size() != 8) 
+    {
+        cout << "Greska: Neodgovarajuc deskriptor!" << endl;
+        free_access_flag = 0;
+    }
+
+    string servis_deskriptor = splitted_gen_desc.substr(4,8);
+    std::istringstream(servis_deskriptor) >> std::hex >> decimal;
+    std::bitset<16> binary(decimal);
+    std::bitset<16> second_bit = ( (binary >> 14) & (std::bitset<16>)1 ); // 14 - second bit
+    free_access_flag = (int)(second_bit.to_ulong());
+    // cout << binary << " " << free_access_flag << endl;
+
+    // cout << "SetFreeAccessFlag " << splitted_gen_desc <<  " " << servis_deskriptor << " " << decimal << " " << b << " " << (b >> 0 & (std::bitset<16>)1 ) << endl;
+
+}
+
 void ServiceInfo::SetServiceName(string ts_id, string s_id)
 {
     service_name = "Unknown";
@@ -422,6 +447,7 @@ int main(int argc, char** argv)
         "ts=" << sinfo.transport_stream_id << " " <<
         "freq=" << sinfo.frequency << "   " << 
         "service_id="<< "0x"<< sinfo.service_id << "  " <<  
+        "f="<< sinfo.free_access_flag << "  " <<  
         "LCN=" << sinfo.service_lcn << "  " <<
         "(" << sinfo.service_name << ")"<< endl;
     }
