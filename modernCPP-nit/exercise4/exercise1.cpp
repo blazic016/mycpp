@@ -20,11 +20,18 @@ int main()
 	vector<int> first;
 	
 	// 1. Set vector elements to 0 .. 99.
+	// std::generate_n(std::back_inserter(first), 100,
+	// 						[] () {
+	// 							static int value = 0; 
+	// 							return value++; 
+	// 						});
+
+	// Misha
 	std::generate_n(std::back_inserter(first), 100,
-							[] () {
-								static int value = 0; 
+							[value = 0] () mutable{
 								return value++; 
 							});
+
 
 	cout << "First:\n";
 	printElements(first);
