@@ -1,13 +1,5 @@
 Task 1
-In the code in file exercise1.cpp Download exercise1.cppwrite four “one liners” (one statement), each at the place of the appropriate comment in the code.
-
-Use STL algorithms and lambda expressions. At each of the four places, the whole solution can be written in one statement/line (you can break it into multiple lines for readability).
-
-Useful thing will be std::back_inserter_iterator and std::back_inserter.
-
-Look and find algorithms that can be of use:
-
-https://en.cppreference.com/w/cpp/algorithmLinks to an external site.
+Create three threads so that one thread prints out 1, the other 2, and the last one 3. All three threads should be created in main function. Thread 1 should sleep for 3 seconds and then print its number and finish. Thread 2 should join thread 1, then print its number and finish. Thread 3 should join thread 2, prints its number and finish. In function main join thread 3.
 
 Task 2
-In the resulting code from the previous exercise, replace all lambda expression with explicit function objects. Before that, copy the solution to exercise2.cpp
+Implement two threads. Threads should share two resources, i.e. two integer variables. Each variable is protected with its own mutex. The first thread writes the following pairs of value to those two variables: {(1,2),(3,4),(5,6)}. It repeats the sequence when it reached the end. Second thread read the shared variables, sums their values and prints the result on screen. Threads do not need to be synchronized, but the second thread should be only allowed to see consistent state of two variables, i.e. the only output should be 3, 7, or 11.
